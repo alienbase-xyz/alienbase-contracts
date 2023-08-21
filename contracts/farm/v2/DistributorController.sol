@@ -46,8 +46,9 @@ contract DistributorController is Ownable {
         _;
     }
 
-    constructor(address _masterChef) {
+    constructor(address _masterChef, address owner) {
         masterChef = _masterChef;
+        super.transferOwnership(owner); //manually init to not msg.sender
     }
 
 
@@ -79,8 +80,8 @@ contract DistributorController is Ownable {
 
     }
 
-    //not locked, but there are limits to allocPoint and depositFee
-    //also special timelock for setting new rewarders
+    //timelocked with limits to allocPoint and depositFee
+    //use updateAlloc to quickly modify farm emissions
     function set(
         uint256 _pid,
         uint256 _allocPoint,
@@ -95,7 +96,8 @@ contract DistributorController is Ownable {
         require(_allocPoint < _masterChef.totalAllocPoint(), "MAX_ALLO");
 
         //can't add a higher deposit fee than what already exists
-        (,,,activeDepositBP,,,) = _masterChef.poolInfo(_pid);
+        //rewarders is unaccessible with default getter so poolInfo has 7 fields.
+        (,,,, uint activeDepositBP,,) = _masterChef.poolInfo(_pid);
         require(_depositFeeBP <= activeDepositBP, "MAX_DEPOSIT");
 
         _masterChef.set(_pid, _allocPoint, _depositFeeBP, _harvestInterval, _rewarders);

@@ -2,9 +2,7 @@ build/
 node_modules/
 deployments/
 tasks/
-scripts/
 tasks/*
-deploy/
 .secret
 .secret-testnet
 .env

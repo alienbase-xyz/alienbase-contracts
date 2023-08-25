@@ -43,9 +43,9 @@ library UniswapV2Library {
     function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint amountOut) {
         require(amountIn > 0, 'UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'UniswapV2Library: INSUFFICIENT_LIQUIDITY');
-        uint amountInWithFee = amountIn.mul(997);
+        uint amountInWithFee = amountIn.mul(9984);
         uint numerator = amountInWithFee.mul(reserveOut);
-        uint denominator = reserveIn.mul(1000).add(amountInWithFee);
+        uint denominator = reserveIn.mul(10000).add(amountInWithFee);
         amountOut = numerator / denominator;
     }
 
@@ -53,8 +53,8 @@ library UniswapV2Library {
     function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut) internal pure returns (uint amountIn) {
         require(amountOut > 0, 'UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'UniswapV2Library: INSUFFICIENT_LIQUIDITY');
-        uint numerator = reserveIn.mul(amountOut).mul(1000);
-        uint denominator = reserveOut.sub(amountOut).mul(997);
+        uint numerator = reserveIn.mul(amountOut).mul(10000);
+        uint denominator = reserveOut.sub(amountOut).mul(9984);
         amountIn = (numerator / denominator).add(1);
     }
 
